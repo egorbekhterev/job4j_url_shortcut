@@ -2,10 +2,12 @@ package ru.job4j.urlshortcut.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import ru.job4j.urlshortcut.validation.Operation;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * @author: Egor Bekhterev
@@ -22,10 +24,11 @@ public class Website {
     @EqualsAndHashCode.Include
     private int id;
 
-    @NotNull(message = "Domain name must be not null.", groups = {Operation.OnSignUp.class})
     @Column(name = "domain_name")
+    @EqualsAndHashCode.Include
     private String domainName;
 
+    @EqualsAndHashCode.Include
     private String login;
 
     private String password;
