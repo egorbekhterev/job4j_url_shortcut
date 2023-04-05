@@ -4,11 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.job4j.urlshortcut.dto.DomainDTO;
+import ru.job4j.urlshortcut.annotation.JsonArg;
 import ru.job4j.urlshortcut.model.Website;
-import ru.job4j.urlshortcut.dto.WebsiteDTO;
+import ru.job4j.urlshortcut.dto.website.WebsiteDTO;
 import ru.job4j.urlshortcut.service.WebsiteService;
 
 /**
@@ -23,9 +22,9 @@ public class WebsiteController {
     private final WebsiteService websiteService;
 
     @PostMapping("/registration")
-    public ResponseEntity<WebsiteDTO> signUp(@RequestBody DomainDTO domainDTO) {
+    public ResponseEntity<WebsiteDTO> signUp(@JsonArg("domainName") String domainName) {
         var website = new Website();
-        website.setDomainName(domainDTO.getDomain());
+        website.setDomainName(domainName);
         var savedWebsite = websiteService.save(website);
 
         var websiteDTO = new WebsiteDTO();

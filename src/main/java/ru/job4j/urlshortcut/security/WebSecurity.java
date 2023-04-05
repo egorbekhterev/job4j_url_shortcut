@@ -28,6 +28,7 @@ import static ru.job4j.urlshortcut.filter.JWTAuthenticationFilter.SIGN_UP_URL;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private UserDetailsServiceImpl userDetailsService;
+
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
