@@ -31,6 +31,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private static final String REDIRECT_URL = "/redirect/";
+
     /**
      * Конфигурирует Spring Security для обработки запросов.
      * cors() - включает поддержку CORS.
@@ -44,6 +46,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .antMatchers(HttpMethod.GET, REDIRECT_URL + "**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))

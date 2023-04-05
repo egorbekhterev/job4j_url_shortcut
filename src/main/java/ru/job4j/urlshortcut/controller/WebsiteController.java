@@ -21,6 +21,11 @@ public class WebsiteController {
 
     private final WebsiteService websiteService;
 
+    /**
+     * Регистрирует новый веб-сайт с заданным доменным именем и возвращает сгенерированный логин и пароль для этого сайта.
+     * @param domainName название домена нового веб-сайта.
+     * @return Response с JSON-представлением {@link WebsiteDTO}
+     */
     @PostMapping("/registration")
     public ResponseEntity<WebsiteDTO> signUp(@JsonArg("domainName") String domainName) {
         var website = new Website();

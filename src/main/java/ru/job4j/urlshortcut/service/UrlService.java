@@ -27,6 +27,13 @@ public class UrlService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UrlService.class.getName());
 
+    /**
+     * Метод сокращает URL-адрес с помощью алгоритма хэширования SHA-256.
+     * @param longUrl полный URL-адрес.
+     * @param i число символов хэша, начиная с первого, которые будут переданы в БД.
+     * @return сокращенный URL.
+     * @throws NoSuchAlgorithmException если выбранный алгоритм хэширования не существует.
+     */
     private static String shortenUrl(String longUrl, int i) throws NoSuchAlgorithmException {
         /* Создает объект реализующий выбранный алгоритм хешированию. */
         MessageDigest md = MessageDigest.getInstance(HASH_ALGORITHM);
@@ -42,6 +49,11 @@ public class UrlService {
         return sb.substring(0, i);
     }
 
+    /**
+     * Сохраняет указанный URL-адрес в базе данных. Если заданный shortURL уже существует, генерирует новый shortURL.
+     * @param url объект {@link URL}.
+     * @return сохраненный URL-адрес с сгенерированным shortURL.
+     */
     public URL save(URL url) {
         var rsl = new URL();
         try {

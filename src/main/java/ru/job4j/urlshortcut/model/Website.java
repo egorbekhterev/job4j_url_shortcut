@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
+ * Модель данных для вебсайтов-пользователей сервиса. Включает идентификатор, названия домена, автоматически
+ * генерируемые логин и пароль.
  * @author: Egor Bekhterev
  * @date: 03.04.2023
  * @project: job4j_url_shortcut

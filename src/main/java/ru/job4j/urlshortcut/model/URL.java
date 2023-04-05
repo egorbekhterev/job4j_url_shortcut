@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 /**
+ * Модель данных для URL, включающая идентификатор, полный URL и сокращенный URL.
  * @author: Egor Bekhterev
  * @date: 05.04.2023
  * @project: job4j_url_shortcut
