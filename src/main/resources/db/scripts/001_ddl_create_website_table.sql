@@ -1,4 +1,4 @@
-create table website
+create table IF NOT EXISTS website
 (
     id serial primary key NOT NULL,
     domain_name text NOT NULL UNIQUE,

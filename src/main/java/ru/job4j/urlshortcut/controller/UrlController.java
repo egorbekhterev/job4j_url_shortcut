@@ -45,9 +45,8 @@ public class UrlController {
 
         var url = new URL();
         url.setLongUrl(longUrl.getLongUrl());
-        urlService.save(url);
 
-        shortUrl.setShortUrl(url.getShortUrl());
+        shortUrl.setShortUrl(urlService.save(url).getShortUrl());
         return new ResponseEntity<>(shortUrl, HttpStatus.OK);
     }
 
