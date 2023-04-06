@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.urlshortcut.model.URL;
 import ru.job4j.urlshortcut.repository.UrlRepository;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -81,5 +83,14 @@ public class UrlService {
 
     public Optional<URL> findByShortUrl(String shortUrl) {
         return urlRepository.findByShortUrl(shortUrl);
+    }
+
+    @Transactional
+    public void updateCounterPlusOne(int id) {
+        urlRepository.updateCounterById(id);
+    }
+
+    public List<URL> findAll() {
+        return urlRepository.findAll();
     }
 }

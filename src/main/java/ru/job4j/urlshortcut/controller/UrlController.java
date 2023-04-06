@@ -1,20 +1,19 @@
 package ru.job4j.urlshortcut.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import ru.job4j.urlshortcut.annotation.JsonArg;
+import ru.job4j.urlshortcut.dto.url.LongUrlDTO;
 import ru.job4j.urlshortcut.dto.url.ShortUrlDTO;
+import ru.job4j.urlshortcut.dto.url.UrlStatDTO;
 import ru.job4j.urlshortcut.model.URL;
 import ru.job4j.urlshortcut.service.UrlService;
 
+import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 /**
  * @author: Egor Bekhterev
@@ -35,8 +34,8 @@ public class UrlController {
      * @return Response с JSON-представлением {@link ShortUrlDTO}.
      */
     @PostMapping("/convert")
-    public ResponseEntity<ShortUrlDTO> convert(@JsonArg("longUrl") String longUrl) {
-        var optionalURL = urlService.findByLongUrl(longUrl);
+    public ResponseEntity<ShortUrlDTO> convert(@Valid @RequestBody LongUrlDTO longUrl) {
+        var optionalURL = urlService.findByLongUrl(longUrl.getLongUrl());
         var shortUrl = new ShortUrlDTO();
 
         if (optionalURL.isPresent()) {
@@ -45,7 +44,7 @@ public class UrlController {
         }
 
         var url = new URL();
-        url.setLongUrl(longUrl);
+        url.setLongUrl(longUrl.getLongUrl());
         urlService.save(url);
 
         shortUrl.setShortUrl(url.getShortUrl());
@@ -67,8 +66,25 @@ public class UrlController {
                         HttpStatus.BAD_REQUEST, "This unique code is not associated with any URL.")
         );
 
+        urlService.updateCounterPlusOne(url.getId());
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create(url.getLongUrl()))
                 .build();
+    }
+
+    private static UrlStatDTO toDTO(URL url) {
+        var dto = new UrlStatDTO();
+        dto.setUrl(url.getLongUrl());
+        dto.setTotal(url.getCount());
+        return dto;
+    }
+
+    /**
+     * GET-метод для получения статистики переходов по URL-адресу.
+     * @return список {@link UrlStatDTO}
+     */
+    @GetMapping("/statistic")
+    public List<UrlStatDTO> getStatistics() {
+        return urlService.findAll().stream().map(UrlController::toDTO).toList();
     }
 }

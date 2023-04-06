@@ -23,4 +23,6 @@ public class URL {
 
     @Column(name = "short_url")
     private String shortUrl;
+
+    private int count;
 }

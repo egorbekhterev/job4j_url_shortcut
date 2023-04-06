@@ -62,7 +62,8 @@ public class GlobalExceptionHandler {
         response.setStatus(HttpStatus.CONFLICT.value());
         response.setContentType("application/json");
         response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() { {
-            put("message", "Domain name or login for website are not unique.");
+            put("message",
+                    "Uniqueness error. Check domain name/login for website entity or short/long URL for URL entity.");
             put("details", e.getMessage());
         }}));
         LOGGER.error(e.getMessage());
