@@ -8,7 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.urlshortcut.dto.url.LongUrlDTO;
 import ru.job4j.urlshortcut.dto.url.ShortUrlDTO;
 import ru.job4j.urlshortcut.dto.url.UrlStatDTO;
-import ru.job4j.urlshortcut.model.URL;
+import ru.job4j.urlshortcut.mapper.UrlMapper;
 import ru.job4j.urlshortcut.service.UrlService;
 
 import javax.validation.Valid;
@@ -35,19 +35,7 @@ public class UrlController {
      */
     @PostMapping("/convert")
     public ResponseEntity<ShortUrlDTO> convert(@Valid @RequestBody LongUrlDTO longUrl) {
-        var optionalURL = urlService.findByLongUrl(longUrl.getLongUrl());
-        var shortUrl = new ShortUrlDTO();
-
-        if (optionalURL.isPresent()) {
-            shortUrl.setShortUrl(optionalURL.get().getShortUrl());
-            return new ResponseEntity<>(shortUrl, HttpStatus.OK);
-        }
-
-        var url = new URL();
-        url.setLongUrl(longUrl.getLongUrl());
-
-        shortUrl.setShortUrl(urlService.save(url).getShortUrl());
-        return new ResponseEntity<>(shortUrl, HttpStatus.OK);
+        return new ResponseEntity<>(urlService.convert(longUrl), HttpStatus.OK);
     }
 
 
@@ -71,19 +59,12 @@ public class UrlController {
                 .build();
     }
 
-    private static UrlStatDTO toDTO(URL url) {
-        var dto = new UrlStatDTO();
-        dto.setUrl(url.getLongUrl());
-        dto.setTotal(url.getCount());
-        return dto;
-    }
-
     /**
      * GET-метод для получения статистики переходов по URL-адресу.
      * @return список {@link UrlStatDTO}
      */
     @GetMapping("/statistic")
     public List<UrlStatDTO> getStatistics() {
-        return urlService.findAll().stream().map(UrlController::toDTO).toList();
+        return urlService.findAll().stream().map(UrlMapper::toDTO).toList();
     }
 }

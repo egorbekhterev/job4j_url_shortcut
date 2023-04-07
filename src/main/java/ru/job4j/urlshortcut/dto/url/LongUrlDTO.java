@@ -16,7 +16,6 @@ import javax.validation.constraints.Pattern;
 public class LongUrlDTO {
 
     @NotNull
-    @Pattern(regexp = "^((ht|f)tp(s?)\\:\\/\\/|~\\/|\\/)?(www\\.)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}"
-            + "(\\:[0-9]{1,5})?(\\/([a-zA-Z0-9\\,\\_\\?\\'\\\\\\/\\+&%\\$#\\=~])*)*(\\d+)?$")
+    @Pattern(regexp = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
     private String longUrl;
 }

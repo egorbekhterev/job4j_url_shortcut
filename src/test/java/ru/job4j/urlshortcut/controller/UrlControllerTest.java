@@ -18,6 +18,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.job4j.urlshortcut.UrlShortcutApplication;
+import ru.job4j.urlshortcut.dto.url.LongUrlDTO;
+import ru.job4j.urlshortcut.dto.url.ShortUrlDTO;
 import ru.job4j.urlshortcut.model.URL;
 import ru.job4j.urlshortcut.service.UrlService;
 
@@ -42,11 +44,11 @@ public class UrlControllerTest {
         var json = new JSONObject();
         json.put("longUrl", "https://job4j.ru/profile/exercise/106/task/532");
 
-        var url = new URL();
+        var url = new ShortUrlDTO();
         url.setShortUrl("b96867");
 
-        ArgumentCaptor<URL> argument = ArgumentCaptor.forClass(URL.class);
-        Mockito.when(urlService.save(argument.capture())).thenReturn(url);
+        ArgumentCaptor<LongUrlDTO> argument = ArgumentCaptor.forClass(LongUrlDTO.class);
+        Mockito.when(urlService.convert(argument.capture())).thenReturn(url);
 
         mockMvc.perform(post("/convert")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -58,29 +60,9 @@ public class UrlControllerTest {
 
     @Test
     @WithMockUser
-    public void whenConvertExistingUrlThenGetShortUrlAnd200Status() throws Exception {
-        var json = new JSONObject();
-        json.put("longUrl", "https://job4j.ru/profile/exercise/106/task/532");
-
-        var url = new URL();
-        url.setShortUrl("b96867");
-
-        Mockito.when(urlService.findByLongUrl(any()))
-                .thenReturn(Optional.of(url));
-
-        mockMvc.perform(post("/convert")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json.toString()))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("shortUrl").value("b96867"));
-    }
-
-    @Test
-    @WithMockUser
     public void whenConvertWithNotValidArgumentFirst() throws Exception {
         var json = new JSONObject();
-        json.put("longUrl", "job4j.ru/profile/exercise/106/task/532");
+        json.put("longUrl", "goolge.com");
 
         mockMvc.perform(post("/convert")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -91,7 +73,7 @@ public class UrlControllerTest {
     @WithMockUser
     public void whenConvertWithNotValidArgumentSecond() throws Exception {
         var json = new JSONObject();
-        json.put("longUrl", "https://job4j/profile/exercise/106/task/532");
+        json.put("longUrl", "https://google   .com");
 
         mockMvc.perform(post("/convert")
                 .contentType(MediaType.APPLICATION_JSON)

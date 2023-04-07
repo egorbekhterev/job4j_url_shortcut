@@ -24,14 +24,6 @@ public class WebsiteController {
 
     private final WebsiteService websiteService;
 
-    private static WebsiteDTO toDTO(Website website) {
-        var websiteDTO = new WebsiteDTO();
-        websiteDTO.setRegistration(website != null);
-        websiteDTO.setLogin(website.getLogin());
-        websiteDTO.setPassword(website.getPassword());
-        return websiteDTO;
-    }
-
     /**
      * Регистрирует новый веб-сайт с заданным доменным именем и возвращает сгенерированный логин и пароль для этого сайта.
      * @param domainName название домена нового веб-сайта.
@@ -42,8 +34,6 @@ public class WebsiteController {
         var website = new Website();
         website.setDomainName(domainName.getDomainName());
 
-        var savedWebsite = websiteService.save(website);
-
-        return new ResponseEntity<>(toDTO(savedWebsite), HttpStatus.CREATED);
+        return new ResponseEntity<>(websiteService.save(website), HttpStatus.CREATED);
     }
 }

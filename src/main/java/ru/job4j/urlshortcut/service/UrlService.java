@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.job4j.urlshortcut.dto.url.LongUrlDTO;
+import ru.job4j.urlshortcut.dto.url.ShortUrlDTO;
 import ru.job4j.urlshortcut.model.URL;
 import ru.job4j.urlshortcut.repository.UrlRepository;
 
@@ -75,6 +77,25 @@ public class UrlService {
             LOGGER.error("Error in the shortenUrl(String longUrl) method.", e);
         }
         return rsl;
+    }
+
+    /**
+     * Метод-сервис для преобразования полной URL-ссылки в сокращенную.
+     * Проверяет, есть ли полная ссылка в базе, если есть - возвращает shortUrl из БД, иначе выполняет сохранение URL.
+     * @param longUrl полная URL-ссылка {@link LongUrlDTO}.
+     * @return сокращенная URL-ссылка {@link ShortUrlDTO}
+     */
+    public ShortUrlDTO convert(LongUrlDTO longUrl) {
+        var optionalURL = this.findByLongUrl(longUrl.getLongUrl());
+        var shortURL = new ShortUrlDTO();
+
+        shortURL.setShortUrl(optionalURL.map(URL::getShortUrl).orElseGet(() -> {
+            var url = new URL();
+            url.setLongUrl(longUrl.getLongUrl());
+            return this.save(url).getShortUrl();
+        }));
+
+        return shortURL;
     }
 
     public Optional<URL> findByLongUrl(String longUrl) {

@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.job4j.urlshortcut.UrlShortcutApplication;
+import ru.job4j.urlshortcut.dto.website.WebsiteDTO;
 import ru.job4j.urlshortcut.model.Website;
 import ru.job4j.urlshortcut.service.WebsiteService;
 
@@ -36,7 +37,8 @@ public class WebsiteControllerTest {
         var json = new JSONObject();
         json.put("domainName", "job4j.ru");
 
-        var website = new Website();
+        var website = new WebsiteDTO();
+        website.setRegistration(true);
         website.setLogin("12345678");
         website.setPassword("123456");
 

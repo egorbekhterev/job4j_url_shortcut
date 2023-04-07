@@ -11,15 +11,15 @@
 
 - **Java 17.0.2**
 - **Spring Boot 2.7.8**
-- **Spring Data JPA**
-- **Spring Security**
+- **Spring Data JPA 2.7.8**
+- **Spring Security 5.7.6**
 - **JWT 3.4.0**
-- **Lombok**
+- **Lombok 1.18.24**
 - **PostgreSQL 15**
 - **Liquibase 4.15.0**
 - **H2DB 2.1.214**
-- **Junit**
-- **Mockito**
+- **Junit 5.8.2**
+- **Mockito 4.5.1**
 - **Maven 3.8.1**
 
 ## Требования к окружению

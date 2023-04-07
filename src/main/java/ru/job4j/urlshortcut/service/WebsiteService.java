@@ -3,6 +3,8 @@ package ru.job4j.urlshortcut.service;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.job4j.urlshortcut.dto.website.WebsiteDTO;
+import ru.job4j.urlshortcut.mapper.WebsiteMapper;
 import ru.job4j.urlshortcut.model.Website;
 import ru.job4j.urlshortcut.repository.WebsiteRepository;
 
@@ -30,7 +32,7 @@ public class WebsiteService {
         return UUID.randomUUID().toString().substring(0, 6);
     }
 
-    public Website save(Website website) {
+    public WebsiteDTO save(Website website) {
         website.setLogin(generateLogin());
         var pass = generatePassword();
         website.setPassword(encoder.encode(pass));
@@ -38,7 +40,7 @@ public class WebsiteService {
         websiteRepository.save(website);
 
         website.setPassword(pass);
-        return website;
+        return WebsiteMapper.toDTO(website);
     }
 
     public Optional<Website> findByLogin(String login) {
