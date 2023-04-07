@@ -14,12 +14,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.job4j.urlshortcut.UrlShortcutApplication;
 import ru.job4j.urlshortcut.model.Website;
 import ru.job4j.urlshortcut.service.WebsiteService;
 
 @SpringBootTest(classes = UrlShortcutApplication.class)
+@TestPropertySource(locations = "classpath:application-test.properties")
 @AutoConfigureMockMvc
 public class WebsiteControllerTest {
 
