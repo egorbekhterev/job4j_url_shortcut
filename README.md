@@ -21,6 +21,7 @@
 - **Junit 5.8.2**
 - **Mockito 4.5.1**
 - **Maven 3.8.1**
+- **Docker 23.03.3**
 
 ## Требования к окружению
 
@@ -30,6 +31,31 @@
 - **Postman**
 
 ## Сборка и запуск
+
+## Используя Docker
+
+- **Скачать образ с hub.docker.com**
+```
+docker pull egorbekhterev/url_shortener
+```
+
+- **Выполнить сборку проекта**
+```
+docker-compose build
+```
+
+- **Запустить**
+```
+docker-compose up -d
+```
+
+- **Размер требуемых для запуска образов**
+```
+postgres 379MB
+url_shortener 517MB
+```
+
+## Используя Terminal
 
 - **Создать БД**
 

@@ -39,7 +39,7 @@ public class UrlService {
      * @throws NoSuchAlgorithmException если выбранный алгоритм хэширования не существует.
      */
     private static String shortenUrl(String longUrl, int i) throws NoSuchAlgorithmException {
-        /* Создает объект реализующий выбранный алгоритм хешированию. */
+        /* Создает объект реализующий выбранный алгоритм хеширования. */
         MessageDigest md = MessageDigest.getInstance(HASH_ALGORITHM);
         /* Производит хэширование с использованием выбранного алгоритма.*/
         var hash = md.digest(longUrl.getBytes(StandardCharsets.UTF_8));
